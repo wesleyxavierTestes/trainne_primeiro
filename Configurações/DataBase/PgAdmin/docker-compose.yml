@@ -1,0 +1,11 @@
+version: '3'
+services:  
+  database:
+    image: dpage/pgadmin4
+    container_name: local-pgadmin
+    restart: always
+    ports:
+      - 0.0.0.0:9099:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin-trainee-pgadmin@sgsistemas.com.br
+      PGADMIN_DEFAULT_PASSWORD: sgadmin

@@ -20,12 +20,6 @@ public class ProdutoController {
     @Autowired
     private ProdutoService service;
 
-    private static ArrayList<Produto> produtos = new ArrayList<Produto>() {{
-        add(new Produto(1l, "Sandalha", new BigDecimal(20.00)));
-        add(new Produto(2l, "Sapatênis", new BigDecimal(50.00)));
-        add(new Produto(3l, "All start", new BigDecimal(110.00)));
-    }};
-
     @GetMapping(path = "/findall")
     public List<Produto> findall() {
         return this.service.FindAll();
@@ -63,13 +57,6 @@ public class ProdutoController {
 
     @DeleteMapping(path = "/deletebyid")
     public ResponseEntity<Produto> deletebyid(@RequestParam(name = "id") long id) {
-       /* for (int i = 0; i < produtos.size(); i++) {
-            Produto produto = produtos.get(i);
-            if (produto.getId() == id) {
-                produtos.remove(i);
-                return produto;
-            }
-        }*/
         Produto produtoExiste = this.service.FindById(id);
         if (!Objects.nonNull(produtoExiste)) return new ResponseEntity(null, HttpStatus.NO_CONTENT);
         this.service.DeleteById(id);

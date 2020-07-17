@@ -1,5 +1,6 @@
 package com.traineeprimeiro.domain.entities.cliente;
 
+import com.traineeprimeiro.domain.entities.loja.Loja;
 import com.traineeprimeiro.domain.entities.utils.Telefone;
 import lombok.*;
 
@@ -20,8 +21,12 @@ public class Cliente {
     private String cpfCnpj;
     private String cep;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cliente_Id")
-    private List<Telefone> telefone;
+    private List<Telefone> telefones;
+
+    @ManyToOne
+    @JoinColumn(name = "loja_id")
+    private Loja loja;
 
 }

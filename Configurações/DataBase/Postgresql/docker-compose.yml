@@ -1,0 +1,12 @@
+version: '3'
+services:
+  database:
+    image: postgres:11
+    container_name: local-postgresql
+    restart: always
+    ports:
+      - 0.0.0.0:5432:5432
+    environment:
+      POSTGRES_DB: trainee
+      POSTGRES_USER: trainee
+      POSTGRES_PASSWORD: 123
