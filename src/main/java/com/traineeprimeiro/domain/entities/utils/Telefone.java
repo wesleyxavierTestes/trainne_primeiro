@@ -1,23 +1,23 @@
-package com.traineeprimeiro.domain.entities.produto;
+package com.traineeprimeiro.domain.entities.utils;
 
-import java.math.BigDecimal;
-
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Entity;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Produto {
+public class Telefone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String nome;
-    private BigDecimal valor;
+
+    private String numero;
 }

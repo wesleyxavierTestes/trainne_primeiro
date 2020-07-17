@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.traineeprimeiro.domain.entities.Produto;
+import com.traineeprimeiro.domain.entities.produto.Produto;
 import com.traineeprimeiro.infra.data.DataConfigure;
 
 public class ProdutoQuery {

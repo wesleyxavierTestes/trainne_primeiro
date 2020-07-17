@@ -1,5 +1,6 @@
 package com.traineeprimeiro.controllers;
 
+import com.traineeprimeiro.domain.entities.utils.Cep;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.traineeprimeiro.domain.entities.Cep;
 import com.traineeprimeiro.utils.HttpBase;
 import com.traineeprimeiro.utils.Validacao;
 

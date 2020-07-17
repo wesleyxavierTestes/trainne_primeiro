@@ -1,74 +1,78 @@
 package com.traineeprimeiro.controllers;
 
 import java.math.BigDecimal;
+import com.traineeprimeiro.domain.services.produto.ProdutoService;
+
+import com.traineeprimeiro.domain.entities.produto.Produto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.traineeprimeiro.domain.entities.Produto;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/produto")
 public class ProdutoController {
+
+    @Autowired
+    private ProdutoService service;
+
     private static ArrayList<Produto> produtos = new ArrayList<Produto>() {{
         add(new Produto(1l, "Sandalha", new BigDecimal(20.00)));
         add(new Produto(2l, "Sapatênis", new BigDecimal(50.00)));
         add(new Produto(3l, "All start", new BigDecimal(110.00)));
     }};
 
-    @GetMapping(path = "/lista")
-    public List<Produto> get() {
-        return produtos;
+    @GetMapping(path = "/findall")
+    public List<Produto> findall() {
+        return this.service.FindAll();
     }
 
-    @GetMapping("/consultarPorId/{id}")
-    public Produto getPath(@PathVariable int id) {
-        for (Produto produto:produtos) {
-            if (produto.getId() == id)
-            return produto;
-        }
-        return null;
+    @PostMapping(path = "/save")
+    public ResponseEntity<Produto> save(@RequestBody Produto produto) {
+        Produto produtoNovo = this.service.Save(produto);
+        return new ResponseEntity(produtoNovo, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/consultarPorNome")
-    public Produto getRequest(@RequestParam(name = "nome") String nome) {
+    @GetMapping("/findbyid/{id}")
+    public ResponseEntity<Produto> findbyid(@PathVariable int id) {
+        Produto produto = this.service.FindById(id);
+        if (!Objects.nonNull(produto)) return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(produto, HttpStatus.OK);
+    }
+
+    //@GetMapping(path = "/consultarPorNome")
+    /*public Produto getRequest(@RequestParam(name = "nome") String nome) {
         for (Produto produto:produtos) {
             if (produto.getNome().equals(nome))
                 return produto;
         }
         return null;
+    }*/
+
+    @PutMapping(path = "/update")
+    public ResponseEntity<Produto> update(@RequestBody Produto produto) {
+        Produto produtoExiste = this.service.FindById(produto.getId());
+        if (!Objects.nonNull(produtoExiste)) return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+        Produto produtoUpdate = this.service.Save(produto);
+        return new ResponseEntity(produtoUpdate, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/adicionar")
-    public Produto postProduto(@RequestBody Produto produto) {
-        produto.setId(produtos.size() + 1);
-        produtos.add(produto);
-        return produto;
-    }
-
-    @PutMapping(path = "/editar")
-    public Produto putProduto(@RequestBody Produto produto) {
-        for (Produto produtoUpdate : produtos) {
-            if (produtoUpdate.getId() == produto.getId()) {
-                produtoUpdate.setValor(produto.getValor());
-                produtoUpdate.setNome(produto.getNome());
-                produto = null;
-                break;
-            }
-        }
-        return produto;
-    }
-
-    @DeleteMapping(path = "/deletar")
-    public Produto deleteProduto(@RequestParam(name = "id") long id) {
-        for (int i = 0; i < produtos.size(); i++) {
+    @DeleteMapping(path = "/deletebyid")
+    public ResponseEntity<Produto> deletebyid(@RequestParam(name = "id") long id) {
+       /* for (int i = 0; i < produtos.size(); i++) {
             Produto produto = produtos.get(i);
             if (produto.getId() == id) {
                 produtos.remove(i);
                 return produto;
             }
-        }
-        return null;
+        }*/
+        Produto produtoExiste = this.service.FindById(id);
+        if (!Objects.nonNull(produtoExiste)) return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+        this.service.DeleteById(id);
+        return new ResponseEntity(produtoExiste, HttpStatus.OK);
     }
 }
