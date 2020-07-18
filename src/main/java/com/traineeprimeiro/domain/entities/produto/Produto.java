@@ -2,6 +2,7 @@ package com.traineeprimeiro.domain.entities.produto;
 
 import java.math.BigDecimal;
 
+import com.traineeprimeiro.domain.entities.EntityBase;
 import lombok.*;
 
 import javax.persistence.GeneratedValue;
@@ -14,10 +15,7 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Produto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Produto extends EntityBase {
     private String nome;
     private BigDecimal valor;
 }

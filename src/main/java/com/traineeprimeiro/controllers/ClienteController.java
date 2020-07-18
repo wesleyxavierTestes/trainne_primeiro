@@ -4,6 +4,7 @@ import com.traineeprimeiro.domain.entities.loja.Loja;
 import com.traineeprimeiro.domain.entities.cliente.Cliente;
 import com.traineeprimeiro.domain.services.cliente.ClienteService;
 import com.traineeprimeiro.domain.services.loja.LojaService;
+import com.traineeprimeiro.enuns.EnumTipoPessoa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +32,12 @@ public class ClienteController {
 
     @PostMapping(path = "/save")
     public ResponseEntity<?> save(@RequestBody Cliente cliente) {
+
         if (Objects.nonNull(cliente) && Objects.nonNull(cliente.getLoja())) {
-            Loja loja = cliente.getLoja();
-            loja = this.serviceLoja.FindById(loja.getId());
-            if (!Objects.nonNull(loja)) {
-                return new ResponseEntity("Loja Inexistente", HttpStatus.NO_CONTENT);
-            }
+            boolean exists = this.serviceLoja.ExistsById(cliente.getLoja().getId());
+            if (exists) return new ResponseEntity("Loja Inexistente", HttpStatus.NO_CONTENT);
         }
+
         Cliente clienteNovo = this.service.Save(cliente);
         return new ResponseEntity(clienteNovo, HttpStatus.OK);
     }
@@ -51,9 +51,6 @@ public class ClienteController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<Cliente> update(@RequestBody Cliente cliente) {
-        Cliente clienteExiste = this.service.FindById(cliente.getId());
-        if (!Objects.nonNull(clienteExiste)) return new ResponseEntity(null, HttpStatus.NO_CONTENT);
-
         Loja loja = cliente.getLoja();
         if (Objects.nonNull(loja)) {
             loja = this.serviceLoja.FindById(loja.getId());
@@ -63,6 +60,7 @@ public class ClienteController {
         }
 
         Cliente clienteUpdate = this.service.Save(cliente);
+        if (!Objects.nonNull(cliente)) return new ResponseEntity(null, HttpStatus.NO_CONTENT);
         return new ResponseEntity(clienteUpdate, HttpStatus.OK);
     }
 

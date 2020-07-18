@@ -1,5 +1,6 @@
 package com.traineeprimeiro.domain.entities.loja;
 
+import com.traineeprimeiro.domain.entities.EntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Loja {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+public class Loja extends EntityBase {
     private String nome;
 }

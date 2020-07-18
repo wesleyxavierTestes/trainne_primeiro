@@ -1,5 +1,6 @@
 package com.traineeprimeiro.domain.entities.pedido;
 
+import com.traineeprimeiro.domain.entities.EntityBase;
 import com.traineeprimeiro.domain.entities.cliente.Cliente;
 import com.traineeprimeiro.domain.entities.produto.Produto;
 
@@ -14,10 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Pedido  extends EntityBase {
+
     private BigDecimal valorTotal;
 
     @ManyToOne
